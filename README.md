@@ -42,7 +42,7 @@ superpowers controller (Claude)
 ## Install
 
 ```bash
-claude plugin marketplace add ~/projetos/IA/superpowers-agy   # or a git URL
+claude plugin marketplace add ultimopl/superpowers-agy   # or a local path to a clone
 claude plugin install superpowers-agy@superpowers-agy
 ```
 
