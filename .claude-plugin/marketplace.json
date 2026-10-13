@@ -1,0 +1,16 @@
+{
+  "name": "superpowers-agy",
+  "owner": {
+    "name": "Lucas"
+  },
+  "plugins": [
+    {
+      "name": "superpowers-agy",
+      "source": "./",
+      "description": "Gemini implementers for superpowers via the Antigravity CLI"
+    }
+  ],
+  "metadata": {
+    "description": "Gemini implementers for superpowers via the Antigravity CLI"
+  }
+}

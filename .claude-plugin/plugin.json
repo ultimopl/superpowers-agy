@@ -1,0 +1,9 @@
+{
+  "name": "superpowers-agy",
+  "displayName": "Superpowers × Antigravity",
+  "version": "0.1.0",
+  "description": "Route superpowers subagent-driven-development implementer tasks to Google's Gemini through the official Antigravity CLI (agy); reviews stay on Claude.",
+  "author": { "name": "Lucas" },
+  "license": "MIT",
+  "keywords": ["superpowers", "antigravity", "agy", "gemini", "subagents"]
+}

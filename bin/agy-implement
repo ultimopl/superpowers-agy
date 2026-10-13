@@ -1,0 +1,40 @@
+#!/bin/bash
+# Run one headless Antigravity (agy) turn in edit-only mode and print its JSON
+# result. agy may edit files but not run commands; the caller runs tests and
+# commits. Used by the agy-implementer Claude Code agent.
+#
+# Usage: agy-implement --model <id> --prompt-file <path> [--conversation <id>] [--timeout <dur>]
+
+set -euo pipefail
+
+model=gemini-3.8-flash-high
+prompt_file=""
+conversation=""
+timeout=15m
+
+while (($#)); do
+  case "$1" in
+  --model) model=$2; shift 2 ;;
+  --prompt-file) prompt_file=$2; shift 2 ;;
+  --conversation) conversation=$2; shift 2 ;;
+  --timeout) timeout=$2; shift 2 ;;
+  *) echo "agy-implement: unknown argument: $1" >&2; exit 2 ;;
+  esac
+done
+
+[[ -r $prompt_file ]] || { echo "agy-implement: --prompt-file is required and must be readable" >&2; exit 2; }
+
+prompt="$(cat "$prompt_file")
+
+---
+Rules for this session: you may only create and edit files inside $PWD. Do not
+run shell commands, tests, or git; the caller does that and will send you the
+output. Finish with a short summary listing every file you created or changed."
+
+args=(-p "$prompt" --model "$model" --mode accept-edits --output-format json --print-timeout "$timeout")
+[[ -n $conversation ]] && args+=(--conversation "$conversation")
+
+# agy exits 0 even on errors (bad model, quota); surface them as a failure.
+result=$(agy "${args[@]}")
+printf '%s\n' "$result"
+[[ $(jq -r '.status // empty' <<<"$result" 2>/dev/null) == "SUCCESS" ]]
